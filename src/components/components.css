@@ -1,0 +1,32 @@
+
+.Tab-list ul{
+	padding-left: 50px;
+	margin-top:-40px;
+}
+/* Inactive tab */
+.Tab-list ul > li > a {
+    background-color: #149EEC;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    line-height: -30px;
+    border-radius: 2px;
+    margin-right: 2px;
+    display: inline-block;
+    width:80px;
+    height:40px;
+    line-height: 40px;
+}
+.Tab-list ul > li > a:hover {
+    background-color: #8BD0F7;
+}
+
+/* Active tab */
+.Tab-list ul > li.active > a,
+.Tab-list ul > li.active > a:hover,
+.Tab-list ul > li.active > a:focus {
+    background-color: #53C1F6;
+    color: white;
+    margin-right: 2px;
+}
+
