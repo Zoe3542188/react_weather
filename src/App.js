@@ -1,84 +1,87 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import Titles from "./components/Titles";
 import Form from "./components/Form";
-import Weather from "./components/Weather";
-import ControlledTabs from "./components/ControlledTabs";
+import Todo from "./components/Todo"
+import { Tab, Tabs, Table } from 'react-bootstrap';
 
 const api_key = "d925c5663594cafd93b82bc32feedb6a";
+let message;
+export default function App(props) {
+  const [key, setKey] = useState(2);
+  const [city, setCity] = useState("");
 
-
-class App extends Component {
-  state = {
-    temperature: undefined,
-    city: undefined,
-    country: undefined,
-    humidity: undefined,
-    description: undefined,
-    error: undefined
-  }
-
-  fetchData = async (e) => {
-    e.preventDefault();
-    const city = e.target.elements.city.value;
-    const country = e.target.elements.country.value;
-    const weather_data = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city},${country}&mode=json&appid=${api_key}&units=metric`);
-    const data = await weather_data.json();
-    if(city&&country){
-      console.log(data);
-      this.setState({
-        temperature:data.main.temp,
-        city:data.name,
-        country:data.sys.country,
-        humidity:data.main.humidity,
-        description:data.weather[0].description,
-        error:""
-      })  
-    }
+  useEffect(async () => {
+    document.title = `${city} Daily Helper`;
+    if(key === 1){
+      try{
+        const weather_data = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&mode=json&appid=${api_key}&units=metric`);
+        const data = await weather_data.json();
+        console.log(data);
+        message = 
+          <div>
+            <p>location:{data.name},{data.sys.country}</p>
+            <p>description:{data.weather[0].description}</p>
+            <p>temperature:{data.main.temp}</p>
+            <p>humidity:{data.main.humidity}</p>
+          </div>;
+      }
+      catch(e){
+        message = <p>Please input city name and press 'Find Weather'</p>
+      };}
     else{
-        this.setState({
-          temperature:undefined,
-          city:undefined,
-          country:undefined,
-          humidity:undefined,
-          description:undefined,
-          error:"Please input your country and city."
-      });  
-    }
+      try{
+        const forcast_data = await fetch(`http://api.openweathermap.org/data/2.5/forecast?q=${city}&mode=json&appid=${api_key}&units=metric`);
+        const fdata = await forcast_data.json();
+        console.log(fdata)
+        message = 
+          <Table striped bordered condensed hover>
+            <thead>
+              <tr>
+                <th>Date&time</th>
+                <th>Temperature</th>
+                <th>Humidity</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+            {fdata.list.map(item=>(
+            <tr   key={item[0]}>
+                <td>{item.dt_txt}</td>
+                <td>{item.main.temp}C°</td>
+                <td>{item.main.humidity}%</td>
+                <td>{item.weather[0].description}</td>
+              </tr>
+              ))}
+          </tbody>
+          </Table>
+      }
+      catch(e){};
+      }
+  });
+
+  function handleSelect(key){
+    setKey(key);
   }
 
-  render() {
-    return (
-      <div>
-        <div className="App-header">
-          <Titles />  
-          <div className="App-form"></div>
-          <Form fetchData = { this.fetchData }/> 
-        </div> 
-        <ControlledTabs />
-        <div>          
-          <Weather
-            temperature = { this.state.temperature } 
-            city = { this.state.city }
-            country = { this.state.country }
-            humidity = { this.state.humidity }
-            description = { this.state.description }
-            error = {this.state.error}
-          />
+  return (
+    <div className="AppContainer">
+      <div className="App-header">
+        <Titles />  
+        <div className="App-space"></div>
+        <Form onSubmit={cityinfo => setCity(cityinfo)}/>
+      </div> 
+      <Tabs className="Tab-list" activeKey={key} onSelect={handleSelect}>
+        <Tab eventKey={1} title=" Current "></Tab>
+        <Tab eventKey={2} title=" Forecast "></Tab>
+      </Tabs>
+      <div className="App-field">
+        <div className="App-todo">
+          <Todo />
         </div>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
-        <p>232</p>
+        <div className="App-weather">{message}</div>
       </div>
-    );
-  }
+    </div>
+  );
 }
-
-export default App;

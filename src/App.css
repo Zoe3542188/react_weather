@@ -1,5 +1,23 @@
 .AppContainer {
-  text-align: center;
+  background-color:white;
+}
+
+.App-field {
+  display: flex;
+  flex-direction: row;
+}
+
+.App-weather {
+  width:60%;
+}
+
+.App-todo {
+  background-image:url("./components/img/todo.jpg");
+  width: 40%;
+  background-size: 100% 100%;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding:10px;
 }
 
 .App-logo {
@@ -15,16 +33,49 @@
   height:55vh;
   font-size: calc(10px + 2vmin);
   color: white;
-  padding-left: 100px;
+  padding-left: 5%;
 }
 
-.App-form {
-  width:20vw;
+.App-space {
+  width:10%;
 }
 
 .App-link {
   color: #61dafb;
 }
+
+
+.Tab-list ul{
+  padding-left:68px;
+  margin-top:-40px;
+  flex-direction: row-reverse;
+}
+/* Inactive tab */
+.Tab-list ul > li > a {
+    background-color: #3f87e7;
+    color: white;
+    text-align: center;
+    font-weight: 500;
+    line-height: -30px;
+    border-radius: 2px;
+    display: inline-block;
+    width:80px;
+    height:40px;
+    line-height: 40px;
+}
+.Tab-list ul > li > a:hover {
+    background-color: #8bb6ee;
+}
+
+/* Active tab */
+.Tab-list ul > li.active > a,
+.Tab-list ul > li.active > a:hover,
+.Tab-list ul > li.active > a:focus {
+    background-color: white;
+    color: #3f87e7;
+    margin-right: 2px;
+}
+
 
 @keyframes App-logo-spin {
   from {
