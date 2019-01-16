@@ -4,12 +4,12 @@ import './App.css';
 import Titles from "./components/Titles";
 import Form from "./components/Form";
 import Todo from "./components/Todo"
-import { Tab, Tabs, Table } from 'react-bootstrap';
+import { Tab, Tabs, Table,ListGroup } from 'react-bootstrap';
 
 const api_key = "d925c5663594cafd93b82bc32feedb6a";
 let message;
 export default function App(props) {
-  const [key, setKey] = useState(2);
+  const [key, setKey] = useState(1);
   const [city, setCity] = useState("");
 
   useEffect(async () => {
@@ -19,16 +19,16 @@ export default function App(props) {
         const weather_data = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&mode=json&appid=${api_key}&units=metric`);
         const data = await weather_data.json();
         console.log(data);
-        message = 
-          <div>
-            <p>location:{data.name},{data.sys.country}</p>
-            <p>description:{data.weather[0].description}</p>
-            <p>temperature:{data.main.temp}</p>
-            <p>humidity:{data.main.humidity}</p>
+        message =           
+          <div className="Weather-card">
+            <p>Location:{"      "}{data.name},{data.sys.country}</p>
+            <p>Description:{"      "}{data.weather[0].description}</p>
+            <p>Temperature:{"      "}{data.main.temp}C°</p>
+            <p>Humidity:{"      "}{data.main.humidity}%</p>
           </div>;
       }
       catch(e){
-        message = <p>Please input city name and press 'Find Weather'</p>
+        message = <p>Please select "Forecast" or "Current" then type in a city name and press 'Find Weather'</p>
       };}
     else{
       try{

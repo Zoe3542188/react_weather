@@ -6,14 +6,18 @@ import { Button } from "react-bootstrap";
 
 export default function Todo() {
 	const [todos, setTodos] = useState([]);
+	const [order, setOrder] = useState(0);
 	const completeTodo = (i) => setTodos(todos.map((todo,k)=>
 		k===i?
 			{...todo,complete:!todo.complete}:todo));
 
 	return(
 		<div>
-			<TodoForm onSubmit={msg => setTodos([{msg, complete:false}, ...todos])}/>
-			<Button bsStyle='danger' onClick={()=>setTodos([])}>reset</Button>
+			<TodoForm onSubmit={msg => {
+					setOrder(order+1);
+					setTodos([{msg, complete:false}, ...todos])}
+				}/>
+			<Button className='reset-btn' bsStyle='danger' onClick={()=>setTodos([])}>Clear</Button>
 			<div>
 				{todos.map(({ msg, complete },i) => (
 					<div 

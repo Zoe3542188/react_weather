@@ -9,6 +9,9 @@
 
 .App-weather {
   width:60%;
+  text-align: center;
+  align-items: center;
+  padding:20px;
 }
 
 .App-todo {
@@ -76,6 +79,13 @@
     margin-right: 2px;
 }
 
+.Weather-card {
+  margin-top:-20px;
+  background-color:#9B9BB3;
+  font-size: 3vh;
+  color:white;
+  background-image: url("./components/img/weatherBoard.jpg");
+}
 
 @keyframes App-logo-spin {
   from {
