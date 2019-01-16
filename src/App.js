@@ -11,9 +11,10 @@ let message;
 export default function App(props) {
   const [key, setKey] = useState(1);
   const [city, setCity] = useState("");
+  const [isrefresh, setIsrefresh] = useState(false);
 
   useEffect(async () => {
-    document.title = `${city} Daily Helper`;
+    document.title = `${city} Daily Weather`;
     if(key === 1){
       try{
         const weather_data = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${city}&mode=json&appid=${api_key}&units=metric`);
@@ -70,7 +71,7 @@ export default function App(props) {
       <div className="App-header">
         <Titles />  
         <div className="App-space"></div>
-        <Form onSubmit={cityinfo => setCity(cityinfo)}/>
+        <Form onSubmit={cityinfo => {setIsrefresh(!isrefresh);setCity(cityinfo)}}/>
       </div> 
       <Tabs className="Tab-list" activeKey={key} onSelect={handleSelect}>
         <Tab eventKey={1} title=" Current "></Tab>
